@@ -18,6 +18,7 @@
                     {{ __('You are logged in!') }}
                 </div>
             </div> --}}
+            faros
         </div>
         
     </div>
