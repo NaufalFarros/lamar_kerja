@@ -22,3 +22,12 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 RUN chown -R www-data:www-data /var/www/html \
     && a2enmod rewrite
+
+# Install NPM dependencies
+RUN npm install
+
+# Generate optimized class loader
+RUN composer dump-autoload --optimize --ansi
+
+# Build assets with Vite
+RUN npm run prod
