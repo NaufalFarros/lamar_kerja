@@ -1,36 +1,56 @@
-version: '3.7'
-
-services:  
-  db:
-    image: mysql:5.7
-    container_name: db
-    environment:
-      MYSQL_ROOT_PASSWORD: passwd
-      MYSQL_DATABASE: app_db
-      MYSQL_USER: user
-      MYSQL_PASSWORD: passwd
-    ports:
-      - "3306:3306"
-    volumes:
-      - ./db:/var/lib/mysql
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: pma
-    links:
-      - db
-    environment:
-      PMA_HOST: db
-      PMA_PORT: 3306
-      PMA_ARBITRARY: 1
-    restart: always
-    ports:
-      - 8081:80
+version: "3.8"
+services:
   app:
     build:
       context: .
-      dockerfile: .Dockerfile
-    image: laravelapp
+      dockerfile: Dockerfile
+    image: my-laravel-app
+    container_name: my-laravel-app
     ports:
-      - 8080:80
+      - "8000:8000"
     volumes:
-      - ./:/var/www/html
+      - .:/var/www/html
+    environment:
+      - APP_ENV=local
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_DATABASE=my_database
+      - DB_USERNAME=root
+      - DB_PASSWORD=my_password
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - app-network
+
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=my_password
+      - MYSQL_DATABASE=my_database
+      - MYSQL_USER=my_user
+      - MYSQL_PASSWORD=my_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - app-network
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - app-network
+
+volumes:
+  mysql-data:
+  redis-data:
+
+networks:
+  app-network:
