@@ -12,7 +12,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ./db:/var/lib/mysql
+      - db_data:/var/lib/mysql
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: pma
@@ -34,3 +34,6 @@ services:
       - 8080:80
     volumes:
       - ./:/var/www/html
+
+volumes:
+  db_data:
