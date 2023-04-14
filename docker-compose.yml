@@ -35,6 +35,8 @@ services:
       - "443:443"
     volumes:
       - ./:/var/www/html
+      - /etc/ssl/certs:/etc/ssl/certs
+      - /etc/ssl/private:/etc/ssl/private
 
 volumes:
   db_data:
