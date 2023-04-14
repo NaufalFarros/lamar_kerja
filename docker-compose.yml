@@ -1,6 +1,6 @@
 version: '3.7'
 
-services:  
+services:
   db:
     image: mysql:5.7
     container_name: db
@@ -24,16 +24,18 @@ services:
       PMA_ARBITRARY: 1
     restart: always
     ports:
-      - 81:81
+      - "8081:80"
   app:
     build:
       context: .
       dockerfile: .Dockerfile
     image: laravelapp
     ports:
-      - 80:80
+      - "80:80"
+      - "443:443"
     volumes:
       - ./:/var/www/html
+      - ./nginx/ssl:/etc/nginx/ssl
 
 volumes:
   db_data:
