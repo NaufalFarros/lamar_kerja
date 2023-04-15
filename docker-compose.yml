@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   db:
-    image: mysql:5.7
+    image: mysql:latest
     container_name: db
     environment:
       MYSQL_ROOT_PASSWORD: passwd
@@ -30,9 +30,6 @@ services:
     restart: always
     ports:
       - "8443:443"
-    volumes:
-      - /etc/ssl/certs:/etc/ssl/certs
-      - /etc/ssl/private:/etc/ssl/private
   app:
     build:
       context: .
@@ -42,8 +39,6 @@ services:
       - "443:443"
     volumes:
       - ./:/var/www/html
-      - /etc/ssl/certs:/etc/ssl/certs
-      - /etc/ssl/private:/etc/ssl/private
 
 volumes:
   db_data:
