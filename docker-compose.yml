@@ -9,10 +9,14 @@ services:
       MYSQL_DATABASE: app_db
       MYSQL_USER: user
       MYSQL_PASSWORD: passwd
+      MYSQL_SSL_CERT: /etc/ssl/certs/pazijaya.my.id.crt
+      MYSQL_SSL_KEY: /etc/ssl/private/pazijaya.my.id.key
     ports:
       - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
+      - /etc/ssl/certs:/etc/ssl/certs
+      - /etc/ssl/private:/etc/ssl/private
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: pma
@@ -25,6 +29,10 @@ services:
     restart: always
     ports:
       - "8081:80"
+      - "8443:443"
+    volumes:
+      - /etc/ssl/certs:/etc/ssl/certs
+      - /etc/ssl/private:/etc/ssl/private
   app:
     build:
       context: .
