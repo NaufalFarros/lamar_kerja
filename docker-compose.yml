@@ -15,8 +15,6 @@ services:
       - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
-      - /etc/ssl/certs:/etc/ssl/certs
-      - /etc/ssl/private:/etc/ssl/private
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: pma
@@ -30,9 +28,6 @@ services:
     restart: always
     ports:
       - "8443:443"
-    volumes:
-      - /etc/ssl/certs:/etc/ssl/certs
-      - /etc/ssl/private:/etc/ssl/private
   app:
     build:
       context: .
