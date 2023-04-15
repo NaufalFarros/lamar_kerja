@@ -25,9 +25,15 @@ services:
       PMA_PORT: 3306
       PMA_ARBITRARY: 1
       PMA_ABSOLUTE_URI: https://pazijaya.my.id:8443/phpmyadmin
+      PMA_ENABLE_SSL: 'true'
+      PMA_SSL_KEY: /etc/ssl/private/pazijaya.my.id.key
+      PMA_SSL_CERT: /etc/ssl/certs/pazijaya.my.id.crt
     restart: always
     ports:
       - "8443:443"
+    volumes:
+      - /etc/ssl/certs:/etc/ssl/certs
+      - /etc/ssl/private:/etc/ssl/private
   app:
     build:
       context: .
